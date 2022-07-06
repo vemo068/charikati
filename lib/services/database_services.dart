@@ -17,7 +17,7 @@ class DatabaseService {
   final String createBuyTable =
       'CREATE TABLE buy (id INTEGER PRIMARY KEY, date TEXT, clientId INTEGER ,FOREIGN KEY (clientId) REFERENCES client(id) ON DELETE SET NULL)';
   final String createOrderTable =
-      'CREATE TABLE order (id INTEGER PRIMARY KEY, contity INTEGER, productId INTEGER, buyId INTEGER,FOREIGN KEY (buyId) REFERENCES buy(id) ON DELETE SET NULL ,FOREIGN KEY (productId) REFERENCES products(id) ON DELETE SET NULL)';
+      'CREATE TABLE order (id INTEGER PRIMARY KEY, contity INTEGER, productId INTEGER FOREIGN KEY REFERENCES products(id), buyId INTEGER FOREIGN KEY REFERENCES buy(id) ON DELETE SET NULL)';
 
   static final DatabaseService _databaseService = DatabaseService._internal();
   factory DatabaseService() => _databaseService;
@@ -59,7 +59,7 @@ class DatabaseService {
     );
     await db.execute(createClientTable);
     await db.execute(createBuyTable);
-    await db.execute(createOrderTable);
+    //await db.execute(createOrderTable);
   }
 
   Future<void> insertDesignation(Designation designation) async {
@@ -83,7 +83,8 @@ class DatabaseService {
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
   }
-Future<void> insertClient(Client client) async {
+
+  Future<void> insertClient(Client client) async {
     // Get a reference to the database.
     final db = await _databaseService.database;
 
@@ -93,6 +94,7 @@ Future<void> insertClient(Client client) async {
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
   }
+
   Future<void> insertBuy(Buy buy) async {
     // Get a reference to the database.
     final db = await _databaseService.database;
@@ -103,6 +105,7 @@ Future<void> insertClient(Client client) async {
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
   }
+
   Future<void> insertOrder(Order order) async {
     // Get a reference to the database.
     final db = await _databaseService.database;
@@ -113,67 +116,47 @@ Future<void> insertClient(Client client) async {
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
   }
-  //A method that retrieves all the breeds from the breeds table.
+
   Future<List<Designation>> getDesignations() async {
-    // Get a reference to the database.
     final db = await _databaseService.database;
 
-    // Query the table for all the Breeds.
     final List<Map<String, dynamic>> maps = await db.query(designationTable);
 
-    // Convert the List<Map<String, dynamic> into a List<Breed>.
     return List.generate(
         maps.length, (index) => Designation.fromMap(maps[index]));
   }
 
-
-
-Future<List<Client>> getClients() async {
-    // Get a reference to the database.
+  Future<List<Client>> getClients() async {
     final db = await _databaseService.database;
 
-    // Query the table for all the Breeds.
     final List<Map<String, dynamic>> maps = await db.query(clientTable);
 
-    // Convert the List<Map<String, dynamic> into a List<Breed>.
     return List.generate(maps.length, (index) => Client.fromMap(maps[index]));
   }
 
-
-
   Future<List<Buy>> getClientBuys(int clientId) async {
-    // Get a reference to the database.
     final db = await _databaseService.database;
 
-    // Query the table for all the Breeds.
-    final List<Map<String, dynamic>> maps = await db.query(buyTable,
-        where: 'clientId = ?', whereArgs: [clientId]);
+    final List<Map<String, dynamic>> maps =
+        await db.query(buyTable, where: 'clientId = ?', whereArgs: [clientId]);
 
-    // Convert the List<Map<String, dynamic> into a List<Breed>.
     return List.generate(maps.length, (index) => Buy.fromMap(maps[index]));
   }
 
-Future<List<Order>> getBuyOrders(int buyId) async {
-    // Get a reference to the database.
+  Future<List<Order>> getBuyOrders(int buyId) async {
     final db = await _databaseService.database;
 
-    // Query the table for all the Breeds.
-    final List<Map<String, dynamic>> maps = await db.query(orderTable,
-        where: 'clientId = ?', whereArgs: [buyId]);
+    final List<Map<String, dynamic>> maps =
+        await db.query(orderTable, where: 'buyId = ?', whereArgs: [buyId]);
 
-    // Convert the List<Map<String, dynamic> into a List<Breed>.
     return List.generate(maps.length, (index) => Order.fromMap(maps[index]));
   }
 
-
   Future<List<Product>> getProducts() async {
-    // Get a reference to the database.
     final db = await _databaseService.database;
 
-    // Query the table for all the Breeds.
     final List<Map<String, dynamic>> maps = await db.query(productsTable);
 
-    // Convert the List<Map<String, dynamic> into a List<Breed>.
     return List.generate(maps.length, (index) => Product.fromMap(maps[index]));
   }
 
