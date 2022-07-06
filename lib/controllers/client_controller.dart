@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 class ClientController extends GetxController {
   final DatabaseService db = DatabaseService();
   List<Client> clients = [];
+  Client? selectedClient;
 
   TextEditingController nameController = TextEditingController();
   TextEditingController phoneController = TextEditingController();

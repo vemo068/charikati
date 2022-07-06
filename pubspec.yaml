@@ -30,6 +30,8 @@ dependencies:
   get: ^4.6.5
   sqflite: ^2.0.2+1
   path_provider: 
+  avatars: ^3.0.2
+  url_launcher: ^6.1.2
  
   flutter:
     sdk: flutter
