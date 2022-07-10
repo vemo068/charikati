@@ -10,14 +10,14 @@ class DatabaseService {
   final String designationTable = 'designation';
   final String productsTable = 'products';
   final String buyTable = 'buy';
-  final String orderTable = 'order';
+  final String orderTable = 'orderi';
   final String clientTable = 'client';
   final String createClientTable =
       'CREATE TABLE client (id INTEGER PRIMARY KEY, name TEXT, phone TEXT, email TEXT)';
   final String createBuyTable =
-      'CREATE TABLE buy (id INTEGER PRIMARY KEY, date TEXT, clientId INTEGER ,FOREIGN KEY (clientId) REFERENCES client(id) ON DELETE SET NULL)';
+      'CREATE TABLE buy (id INTEGER PRIMARY KEY, date TEXT, clientId INTEGER ,total INTEGER ,FOREIGN KEY (clientId) REFERENCES client(id) ON DELETE SET NULL)';
   final String createOrderTable =
-      'CREATE TABLE order (id INTEGER PRIMARY KEY, contity INTEGER, productId INTEGER FOREIGN KEY REFERENCES products(id), buyId INTEGER FOREIGN KEY REFERENCES buy(id) ON DELETE SET NULL)';
+      'CREATE TABLE orderi (id INTEGER PRIMARY KEY, contity INTEGER,total INTEGER , buyId INTEGER, productId INTEGER, FOREIGN KEY (productId) REFERENCES products(id),  FOREIGN KEY (buyId) REFERENCES buy(id) ON DELETE SET NULL)';
 
   static final DatabaseService _databaseService = DatabaseService._internal();
   factory DatabaseService() => _databaseService;
@@ -59,7 +59,7 @@ class DatabaseService {
     );
     await db.execute(createClientTable);
     await db.execute(createBuyTable);
-    //await db.execute(createOrderTable);
+    await db.execute(createOrderTable);
   }
 
   Future<void> insertDesignation(Designation designation) async {
