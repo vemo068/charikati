@@ -1,30 +1,39 @@
 import 'dart:ffi';
 
 import 'package:charikati/controllers/client_controller.dart';
-import 'package:charikati/models/buy.dart';
+import 'package:charikati/models/sell.dart';
 import 'package:charikati/services/database_services.dart';
 import 'package:get/get.dart';
 
-class BuysController extends GetxController {
+class SellController extends GetxController {
   final DatabaseService db = DatabaseService();
   final ClientController clientController = Get.find<ClientController>();
-  List<Buy> buys = [];
-  
+  List<Sell> sells = [];
+  Sell? selectedSell;
   @override
   void onInit() {
     getClientBuys();
     super.onInit();
   }
 
+  void saveSell() async {
+    Sell sell = Sell(
+      clientId: clientController.selectedClient!.id!,
+      date: DateTime.now().toString().substring(0, 16),
+    );
+    await db.insertSell(sell);
+    getClientBuys();
+    update();
+  }
+
   void getClientBuys() async {
     var b = await db.getClientBuys(clientController.selectedClient!.id!);
     if (b != null) {
-      buys = b;
+      sells = b;
     } else {
-      buys = [];
+      sells = [];
     }
-      
-   
+
     update();
   }
 }

@@ -1,4 +1,4 @@
-import 'package:charikati/models/buy.dart';
+import 'package:charikati/models/sell.dart';
 import 'package:charikati/models/client.dart';
 import 'package:charikati/models/designation.dart';
 import 'package:charikati/models/order.dart';
@@ -9,15 +9,15 @@ import 'package:path/path.dart';
 class DatabaseService {
   final String designationTable = 'designation';
   final String productsTable = 'products';
-  final String buyTable = 'buy';
+  final String buyTable = 'sell';
   final String orderTable = 'orderi';
   final String clientTable = 'client';
   final String createClientTable =
       'CREATE TABLE client (id INTEGER PRIMARY KEY, name TEXT, phone TEXT, email TEXT)';
   final String createBuyTable =
-      'CREATE TABLE buy (id INTEGER PRIMARY KEY, date TEXT, clientId INTEGER ,total INTEGER ,FOREIGN KEY (clientId) REFERENCES client(id) ON DELETE SET NULL)';
+      'CREATE TABLE sell (id INTEGER PRIMARY KEY, date TEXT, clientId INTEGER ,total INTEGER DEFAULT 0 ,FOREIGN KEY (clientId) REFERENCES client(id) ON DELETE SET NULL)';
   final String createOrderTable =
-      'CREATE TABLE orderi (id INTEGER PRIMARY KEY, contity INTEGER,total INTEGER , buyId INTEGER, productId INTEGER, FOREIGN KEY (productId) REFERENCES products(id),  FOREIGN KEY (buyId) REFERENCES buy(id) ON DELETE SET NULL)';
+      'CREATE TABLE orderi (id INTEGER PRIMARY KEY, contity INTEGER,total INTEGER , sellId INTEGER, productId INTEGER, FOREIGN KEY (productId) REFERENCES products(id),  FOREIGN KEY (sellId) REFERENCES sell(id) ON DELETE SET NULL)';
 
   static final DatabaseService _databaseService = DatabaseService._internal();
   factory DatabaseService() => _databaseService;
@@ -95,13 +95,13 @@ class DatabaseService {
     );
   }
 
-  Future<void> insertBuy(Buy buy) async {
+  Future<void> insertSell(Sell sell) async {
     // Get a reference to the database.
     final db = await _databaseService.database;
 
     await db.insert(
       buyTable,
-      buy.toMap(),
+      sell.toMap(),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
   }
@@ -134,13 +134,13 @@ class DatabaseService {
     return List.generate(maps.length, (index) => Client.fromMap(maps[index]));
   }
 
-  Future<List<Buy>> getClientBuys(int clientId) async {
+  Future<List<Sell>> getClientBuys(int clientId) async {
     final db = await _databaseService.database;
 
     final List<Map<String, dynamic>> maps =
         await db.query(buyTable, where: 'clientId = ?', whereArgs: [clientId]);
 
-    return List.generate(maps.length, (index) => Buy.fromMap(maps[index]));
+    return List.generate(maps.length, (index) => Sell.fromMap(maps[index]));
   }
 
   Future<List<Order>> getBuyOrders(int buyId) async {

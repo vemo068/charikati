@@ -1,9 +1,9 @@
-class Buy {
+class Sell {
   int? id;
-  int total;
-  DateTime date;
+  int? total;
+  String date;
   int clientId;
-  Buy({required this.date, required this.total,required this.clientId, this.id});
+  Sell({required this.date, this.total, required this.clientId, this.id});
   Map<String, dynamic> toMap() {
     return {
       'id': id,
@@ -13,12 +13,12 @@ class Buy {
     };
   }
 
-  factory Buy.fromMap(Map<String, dynamic> map) {
-    return Buy(
+  factory Sell.fromMap(Map<String, dynamic> map) {
+    return Sell(
       id: map['id']?.toInt() ?? 0,
       date: map['date'],
       clientId: map['clientId'],
-      total: map['total'],
+      total: map['total'] ?? 0,
     );
   }
 }
