@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 class DesignationController extends GetxController {
   TextEditingController nameController = TextEditingController();
   List<Designation> designations = [];
+  Designation? selectedDesignation;
   final db = DatabaseService();
 
   @override

@@ -17,7 +17,7 @@ class Order {
       'total': total,
       'contity': contity,
       'productId': productId,
-      'buyId': sellId,
+      'sellId': sellId,
     };
   }
 
@@ -26,7 +26,7 @@ class Order {
       id: map['id']?.toInt() ?? 0,
       contity: map['contity'],
       productId: map['productId'],
-      sellId: map['buyId'],
+      sellId: map['sellId'],
       total: map['total'],
     );
   }

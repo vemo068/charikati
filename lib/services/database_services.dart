@@ -147,7 +147,7 @@ class DatabaseService {
     final db = await _databaseService.database;
 
     final List<Map<String, dynamic>> maps =
-        await db.query(orderTable, where: 'buyId = ?', whereArgs: [buyId]);
+        await db.query(orderTable, where: 'sellId = ?', whereArgs: [buyId]);
 
     return List.generate(maps.length, (index) => Order.fromMap(maps[index]));
   }
@@ -166,4 +166,36 @@ class DatabaseService {
         await db.query(designationTable, where: 'id = ?', whereArgs: [id]);
     return Designation.fromMap(maps[0]);
   }
-}
+  Future<Product> product(int id) async {
+    final db = await _databaseService.database;
+    final List<Map<String, dynamic>> maps =
+        await db.query(productsTable, where: 'id = ?', whereArgs: [id]);
+    return Product.fromMap(maps[0]);
+  }
+  Future<Sell> sell(int id) async {
+    final db = await _databaseService.database;
+    final List<Map<String, dynamic>> maps =
+        await db.query(buyTable, where: 'id = ?', whereArgs: [id]);
+    return Sell.fromMap(maps[0]);
+  }
+
+  Future<void> updateSell (Sell sell, int id) async {
+final db = await _databaseService.database;
+    await db.rawUpdate('''
+    UPDATE $buyTable 
+    SET total = ? 
+    WHERE id = ?
+    ''',
+    [sell.total, id]);
+    
+    // await db.update(buyTable, sell.toMap(),
+    // where: 'id = ?', whereArgs: [id]);
+    }
+ 
+  Future<void> updateOrder (Order order, int id) async {
+    final db = await _databaseService.database;
+    await db.update(orderTable, order.toMap(),
+    where: 'id = ?', whereArgs: [id]);}
+
+  
+ }

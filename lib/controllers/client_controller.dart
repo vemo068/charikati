@@ -18,11 +18,13 @@ class ClientController extends GetxController {
     super.onInit();
   }
 
-  void saveClient() async{
+  void saveClient() async {
+    String name = nameController.text;
+    if (name.endsWith(" ")) {
+      name = name.substring(0, name.length - 1);
+    }
     Client client = Client(
-        name: nameController.text,
-        phone: phoneController.text,
-        email: emailController.text);
+        name: name, phone: phoneController.text, email: emailController.text);
     await db.insertClient(client);
     getAllClients();
     Get.back();
@@ -32,8 +34,7 @@ class ClientController extends GetxController {
     update();
   }
 
-
-  void getAllClients() async{
+  void getAllClients() async {
     clients = await db.getClients();
     update();
   }
