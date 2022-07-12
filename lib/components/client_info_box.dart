@@ -50,9 +50,12 @@ class ClientInfoBox extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Avatar(
-              name: clientController.selectedClient!.name,
-              placeholderColors: [kcaccent],
+            Hero(
+              tag: clientController.selectedClient!.id!,
+              child: Avatar(
+                name: clientController.selectedClient!.name,
+                placeholderColors: [kcaccent],
+              ),
             ),
             SizedBox(height: 10),
             Text(clientController.selectedClient!.name,

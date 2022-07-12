@@ -32,6 +32,8 @@ dependencies:
   path_provider: 
   avatars: ^3.0.2
   url_launcher: ^6.1.2
+  pdf:
+  intl:
  
   flutter:
     sdk: flutter

@@ -16,6 +16,7 @@ class ClientPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: kcbackground,
       floatingActionButton: FabAjoute(
         ontap: () {
           sellController.saveSell();

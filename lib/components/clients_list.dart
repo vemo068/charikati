@@ -14,7 +14,14 @@ class ClientsList extends StatelessWidget {
           return ListView.builder(
             itemCount: clientController.clients.length,
             itemBuilder: (context, index) {
-              return ClientCard(client: clientController.clients[index]);
+              return Column(
+                children: [
+                  ClientCard(client: clientController.clients[index]),
+                  SizedBox(
+                    height: 10,
+                  ),
+                ],
+              );
             },
           );
         });

@@ -13,6 +13,7 @@ class AddProductPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: kcbackground,
       appBar: charikatiAppBar("Add Product"),
       body: Padding(
           padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -25,18 +26,27 @@ class AddProductPage extends StatelessWidget {
                   border: OutlineInputBorder(),
                 ),
               ),
+              SizedBox(
+                height: 20,
+              ),
               TextField(
                 keyboardType: TextInputType.number,
                 controller: productController.priceController,
                 decoration: InputDecoration(
-                  labelText: "Product name",
+                  labelText: "Product Price",
                   border: OutlineInputBorder(),
                 ),
               ),
               SizedBox(
                 height: 20,
               ),
-              ChooseDesignation(),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 40),
+                child: ChooseDesignation(),
+              ),
+              SizedBox(
+                height: 40,
+              ),
               MaterialButton(
                 color: kcaccent,
                 onPressed: () {

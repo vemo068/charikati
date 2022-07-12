@@ -20,6 +20,7 @@ class SellPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: kcbackground,
       appBar: charikatiAppBar("Sell info"),
       body: Column(
         children: [

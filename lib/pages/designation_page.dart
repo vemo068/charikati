@@ -14,6 +14,7 @@ class DesignationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: kcbackground,
         appBar: charikatiAppBar("Designations"),
         floatingActionButton: FabAjoute(ontap: () {
           showModalBottomSheet(

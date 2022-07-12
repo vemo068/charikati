@@ -12,22 +12,26 @@ class ChooseDesignation extends StatelessWidget {
     return GetBuilder(
         init: designationController,
         builder: (_) {
-          return DropdownButtonHideUnderline(
-              child: DropdownButton<Designation?>(
-            value: designationController.selectedDesignation,
-            icon: Icon(Icons.settings),
-            hint: Text("Select Designation"),
-            items: designationController.designations.map((Designation des) {
-              return DropdownMenuItem<Designation?>(
-                value: des,
-                child: Text(des.name),
-              );
-            }).toList(),
-            onChanged: (Designation? value) {
-              designationController.selectedDesignation = value;
-              designationController.update();
-            },
-          ));
+          return Container(
+            padding: EdgeInsets.symmetric(horizontal: 8),
+            color: Colors.grey[200],
+            child: DropdownButtonHideUnderline(
+                child: DropdownButton<Designation?>(
+              value: designationController.selectedDesignation,
+              icon: Icon(Icons.settings),
+              hint: Text("Select Designation"),
+              items: designationController.designations.map((Designation des) {
+                return DropdownMenuItem<Designation?>(
+                  value: des,
+                  child: Text(des.name),
+                );
+              }).toList(),
+              onChanged: (Designation? value) {
+                designationController.selectedDesignation = value;
+                designationController.update();
+              },
+            )),
+          );
         });
   }
 }

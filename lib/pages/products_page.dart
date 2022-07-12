@@ -5,6 +5,7 @@ import 'package:charikati/components/product_tile.dart';
 import 'package:charikati/controllers/designation_controller.dart';
 import 'package:charikati/controllers/product_controller.dart';
 import 'package:charikati/pages/add_product_page.dart';
+import 'package:charikati/styles/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -16,6 +17,7 @@ class ProductsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: kcbackground,
       appBar: charikatiAppBar("Produits"),
       floatingActionButton: FabAjoute(ontap: () {
         Get.to(() => AddProductPage());

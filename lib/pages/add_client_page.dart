@@ -14,6 +14,7 @@ class AddClientPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: kcbackground,
       appBar: charikatiAppBar("Add Client"),
       body: NormalPadding(
         child: Center(
