@@ -21,7 +21,13 @@ class SellPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kcbackground,
-      appBar: charikatiAppBar("Sell info"),
+      appBar: AppBar(
+        actions: [IconButton(onPressed: sellController.printSell, icon: Icon(Icons.file_copy),),],
+    title: Text("Sell Page"),
+    foregroundColor: kcwhite,
+    backgroundColor: kcmain,
+    elevation: 0,
+  ),
       body: Column(
         children: [
           SellInfoBox(),

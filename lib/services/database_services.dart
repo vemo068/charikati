@@ -178,6 +178,12 @@ class DatabaseService {
         await db.query(buyTable, where: 'id = ?', whereArgs: [id]);
     return Sell.fromMap(maps[0]);
   }
+  Future<Client> client(int id) async {
+    final db = await _databaseService.database;
+    final List<Map<String, dynamic>> maps =
+        await db.query(clientTable, where: 'id = ?', whereArgs: [id]);
+    return Client.fromMap(maps[0]);
+  }
 
   Future<void> updateSell (Sell sell, int id) async {
 final db = await _databaseService.database;
