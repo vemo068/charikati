@@ -15,7 +15,7 @@ class SettingDrawer extends StatelessWidget {
             child: Image.asset(
           "assets/charikati.png",
           fit: BoxFit.cover,
-          scale: 0.5,
+          
         )),
         ListTile(
           onTap: () {
