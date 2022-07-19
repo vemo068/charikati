@@ -1,23 +1,30 @@
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:charikati/components/logo.dart';
 import 'package:charikati/models/client.dart';
+import 'package:charikati/models/designation.dart';
 import 'package:charikati/models/order.dart';
+import 'package:charikati/models/product.dart';
 import 'package:charikati/models/sell.dart';
 import 'package:charikati/services/database_services.dart';
 import 'package:charikati/services/pdf_services/pdf_api.dart';
-import 'package:charikati/styles/colors.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart';
+import 'package:flutter/services.dart' show rootBundle;
 
+// final Uint8List fontData = File('assets/NotoNaskhArabic-bold.ttf').readAsBytesSync();
+// final ttf = Font.ttf(fontData.buffer.asByteData());
 class PdfInvoiceApi {
   static Future<File> generate(Sell sell) async {
     final DatabaseService db = DatabaseService();
+
     List<Order> orders = await db.getBuyOrders(sell.id!);
     Client client = await db.client(sell.clientId);
     final pdf = Document();
 
     pdf.addPage(MultiPage(
+      theme: ThemeData.withFont(),
       build: (context) => [
         header(),
         Divider(),
@@ -45,11 +52,43 @@ class PdfInvoiceApi {
     );
   }
 
-  static Widget ordersList(List<Order> orders) {
-    return Column(
-      children: [
-        for (var order in orders) Text(order.total.toString() + " DA"),
-      ],
+  static Widget ordersList(List<Order> orders)  {
+    final DatabaseService db = DatabaseService();
+    final headers = [
+      'Designation',
+      'Unité',
+          'Quantité',
+      'Prix U.',
+      'Total'
+    ];
+    final data =  orders.map((order)  {
+      // Product product = await db.product(order.productId);
+      // Designation designation = await db.designation(product.designationId);
+      return [
+        "${order.productId}",
+        // designation.name,
+        "U",
+        "${order.contity}",
+        "${order.total/order.contity}",
+      //  "${product.price}"
+       "${order.total}",
+      ];
+    }).toList();
+    return  Table.fromTextArray(
+      headers: headers,
+      data: data,
+      border: null,
+      headerStyle: TextStyle(fontWeight: FontWeight.bold),
+      headerDecoration: BoxDecoration(color: PdfColors.grey300),
+      cellHeight: 30,
+      cellAlignments: {
+        0: Alignment.centerLeft,
+        1: Alignment.centerRight,
+        2: Alignment.centerRight,
+        3: Alignment.centerRight,
+        4: Alignment.centerRight,
+        5: Alignment.centerRight,
+      },
     );
   }
 
@@ -59,7 +98,8 @@ class PdfInvoiceApi {
         Text("R.C.  N°: 39/00-21B0544700"),
         Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
           Text("NIF: 002139054470024", style: pdfStyle),
-          Text("غمرة الوسطى – قمار – الوادي", style: pdfStyle),
+          Text("غمرة الوسطى – قمار – الوادي",
+              style: pdfStyle, textDirection: TextDirection.rtl),
         ]),
         Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
           Text("Tel : 05.42.28.98.05", style: pdfStyle),
@@ -75,5 +115,4 @@ class PdfInvoiceApi {
   }
 }
 
-TextStyle pdfStyle =
-    TextStyle(color: PdfColors.blue, fontBold: Font.courierBold());
+TextStyle pdfStyle = const TextStyle(color: PdfColors.blue);
