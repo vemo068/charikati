@@ -26,7 +26,7 @@ class PdfInvoiceApi {
     pdf.addPage(MultiPage(
       theme: ThemeData.withFont(),
       build: (context) => [
-        header(),
+        
         Divider(),
         Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -92,27 +92,7 @@ class PdfInvoiceApi {
     );
   }
 
-  static Widget header() {
-    return Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-      Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Text("R.C.  N°: 39/00-21B0544700"),
-        Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-          Text("NIF: 002139054470024", style: pdfStyle),
-          Text("غمرة الوسطى – قمار – الوادي",
-              style: pdfStyle, textDirection: TextDirection.rtl),
-        ]),
-        Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-          Text("Tel : 05.42.28.98.05", style: pdfStyle),
-          Text("استيراد التجهيزات والمعدات المرتبطة بصناعة المعادن",
-              style: pdfStyle),
-        ]),
-        Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-          Text("Email : maaden.sahra@gmail.com", style: pdfStyle),
-          Text("رأسمال: 15,000,000.00 دج", style: pdfStyle),
-        ]),
-      ])
-    ]);
-  }
+  
 }
 
 TextStyle pdfStyle = const TextStyle(color: PdfColors.blue);
